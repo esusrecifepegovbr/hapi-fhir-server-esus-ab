@@ -15,6 +15,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.cors.CorsConfiguration;
 
+import br.com.gointerop.hapi.fhir.provider.PatientResourceProvider;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.interceptor.api.IInterceptorBroadcaster;
@@ -96,18 +97,18 @@ public class BaseJpaRestfulServer extends RestfulServer {
       resourceProviders = appCtx.getBean("myResourceProvidersDstu3", ResourceProviderFactory.class);
       systemProvider = appCtx.getBean("mySystemProviderDstu3", JpaSystemProviderDstu3.class);
     } else if (fhirVersion == FhirVersionEnum.R4) {
-      resourceProviders = appCtx.getBean("myResourceProvidersR4", ResourceProviderFactory.class);
+      //resourceProviders = appCtx.getBean("myResourceProvidersR4", ResourceProviderFactory.class);    	
       systemProvider = appCtx.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
     } else if (fhirVersion == FhirVersionEnum.R5) {
       resourceProviders = appCtx.getBean("myResourceProvidersR5", ResourceProviderFactory.class);
       systemProvider = appCtx.getBean("mySystemProviderR5", JpaSystemProviderR5.class);
     } else {
       throw new IllegalStateException();
-    }
+    }    
 
     setFhirContext(appCtx.getBean(FhirContext.class));
 
-    registerProviders(resourceProviders.createProviders());
+    registerProvider(new PatientResourceProvider());
     registerProvider(systemProvider);
 
     /*
