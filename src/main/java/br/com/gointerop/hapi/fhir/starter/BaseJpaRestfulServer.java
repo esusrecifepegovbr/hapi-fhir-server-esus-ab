@@ -11,11 +11,13 @@ import javax.servlet.ServletException;
 import org.hl7.fhir.dstu3.model.Bundle;
 import org.hl7.fhir.dstu3.model.Meta;
 import org.hl7.fhir.r4.model.Bundle.BundleType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.cors.CorsConfiguration;
 
-import br.com.gointerop.hapi.fhir.provider.PatientResourceProvider;
+import br.com.gointerop.hapi.fhir.provider.ProviderPatient;
+//import br.com.gointerop.hapi.fhir.provider.PatientResourceProvider;
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.context.FhirVersionEnum;
 import ca.uhn.fhir.interceptor.api.IInterceptorBroadcaster;
@@ -60,6 +62,9 @@ import ca.uhn.fhir.validation.ResultSeverityEnum;
 public class BaseJpaRestfulServer extends RestfulServer {
 
   private static final long serialVersionUID = 1L;
+  
+  @Autowired
+  ProviderPatient providerPatient;
 
   @SuppressWarnings("unchecked")
   @Override
@@ -97,7 +102,7 @@ public class BaseJpaRestfulServer extends RestfulServer {
       resourceProviders = appCtx.getBean("myResourceProvidersDstu3", ResourceProviderFactory.class);
       systemProvider = appCtx.getBean("mySystemProviderDstu3", JpaSystemProviderDstu3.class);
     } else if (fhirVersion == FhirVersionEnum.R4) {
-      //resourceProviders = appCtx.getBean("myResourceProvidersR4", ResourceProviderFactory.class);    	
+      resourceProviders = appCtx.getBean("myResourceProvidersR4", ResourceProviderFactory.class);    	
       systemProvider = appCtx.getBean("mySystemProviderR4", JpaSystemProviderR4.class);
     } else if (fhirVersion == FhirVersionEnum.R5) {
       resourceProviders = appCtx.getBean("myResourceProvidersR5", ResourceProviderFactory.class);
@@ -108,7 +113,8 @@ public class BaseJpaRestfulServer extends RestfulServer {
 
     setFhirContext(appCtx.getBean(FhirContext.class));
 
-    registerProvider(new PatientResourceProvider());
+    registerProvider(new ProviderPatient(appCtx.getBean(FhirContext.class)));
+    registerProviders(resourceProviders.createProviders());
     registerProvider(systemProvider);
 
     /*
