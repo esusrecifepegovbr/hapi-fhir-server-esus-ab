@@ -1,19 +1,16 @@
-package br.com.gointerop.hapi.fhir.adapter;
+package br.com.gointerop.hapi.fhir.adapter.patient;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.hl7.fhir.HelperMeta;
 import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
-import org.hl7.fhir.r4.model.Patient;
 
-import br.gov.pe.recife.esus.profile.ESUSRecifePEGovBRProfiles;
-import br.gov.saude.semantic.ESUSABSystems;
+import br.com.gointerop.hapi.fhir.adapter.Adapter;
+import br.com.gointerop.hapi.fhir.adapter.IAdapter;
+import br.gov.pe.recife.esus.mappings.MappingPatient;
 
 public class AdapterPatientGender extends Adapter<AdministrativeGender> {
 	private static IAdapter<AdministrativeGender> instance;
-
-	private static final String COLUMN_NAME = "co_sexo";
 
 	public static IAdapter<AdministrativeGender> getInstance() {
 		if (AdapterPatientGender.instance == null) {
@@ -29,7 +26,7 @@ public class AdapterPatientGender extends Adapter<AdministrativeGender> {
 		int indexGender = -1, valueGender = -1;
 
 		try {
-			indexGender = rs.findColumn(COLUMN_NAME);
+			indexGender = rs.findColumn(MappingPatient.gender);
 		} catch (SQLException e) {
 		}
 
@@ -37,10 +34,10 @@ public class AdapterPatientGender extends Adapter<AdministrativeGender> {
 			valueGender = rs.getInt(indexGender);
 
 		switch (valueGender) {
-		case ESUSABSystems.CODE_PATIENT_GENDER_MALE:
+		case br.gov.saude.esusab.valueset.AdministrativeGender.MALE:
 			retVal = AdministrativeGender.MALE;
 			break;
-		case ESUSABSystems.CODE_PATIENT_GENDER_FEMALE:
+		case br.gov.saude.esusab.valueset.AdministrativeGender.FEMALE:
 			retVal = AdministrativeGender.FEMALE;
 			break;
 		default:

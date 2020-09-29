@@ -1,12 +1,14 @@
-package br.com.gointerop.hapi.fhir.adapter;
+package br.com.gointerop.hapi.fhir.adapter.patient;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import br.com.gointerop.hapi.fhir.adapter.Adapter;
+import br.com.gointerop.hapi.fhir.adapter.IAdapter;
+import br.gov.pe.recife.esus.mappings.MappingPatient;
+
 public class AdapterPatientActive extends Adapter {
 	private static IAdapter<String> instance;
-
-	private static final String COLUMN_NAME = "st_ativo_para_exibicao";
 
 	public static IAdapter<String> getInstance() {
 		if (AdapterPatientActive.instance == null) {
@@ -22,7 +24,7 @@ public class AdapterPatientActive extends Adapter {
 		int indexActive = -1, valueActive = -1;
 
 		try {
-			indexActive = rs.findColumn(COLUMN_NAME);
+			indexActive = rs.findColumn(MappingPatient.active);
 		} catch (SQLException e) {
 		}
 

@@ -1,22 +1,22 @@
-package br.com.gointerop.hapi.fhir.adapter;
+package br.com.gointerop.hapi.fhir.adapter.patient;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hl7.fhir.HelperCodeableConcept;
+import org.hl7.fhir.helper.HelperCodeableConcept;
 import org.hl7.fhir.r4.model.Identifier;
 import org.hl7.fhir.r4.model.Identifier.IdentifierUse;
 
-import br.gov.saude.semantic.BRCoreSystems;
+import br.com.gointerop.hapi.fhir.adapter.Adapter;
+import br.com.gointerop.hapi.fhir.adapter.IAdapter;
+import br.gov.pe.recife.esus.mappings.MappingPatient;
+import br.gov.saude.Coding;
 
 public final class AdapterPatientIdentifier extends Adapter<List<Identifier>> {
 	private static IAdapter<List<Identifier>> instance;
 	
-	private static final String COLUMN_TAX = "nu_cpf";
-	private static final String COLUMN_HC = "nu_cns";
-
 	public static IAdapter<List<Identifier>> getInstance() {
 		if (AdapterPatientIdentifier.instance == null) {
 			AdapterPatientIdentifier.instance = new AdapterPatientIdentifier();
@@ -29,12 +29,11 @@ public final class AdapterPatientIdentifier extends Adapter<List<Identifier>> {
 	public List<Identifier> mapRow(ResultSet rs, int rownumber) throws SQLException {
 		List<Identifier> retVal = new ArrayList<Identifier>();
 
-		int indexTax = -1, indexHc = -1;
-		String valueTax = null, valueHc = null;
+		int indexTax = -1;
+		String valueTax = null;
 		
 		try {
-			 indexTax = rs.findColumn(COLUMN_TAX);
-			 indexHc = rs.findColumn(COLUMN_HC);
+			 indexTax = rs.findColumn(MappingPatient.identifier);
 		} catch (SQLException e) {}
 		
 		if (indexTax > -1) valueTax = rs.getString(indexTax);
@@ -42,18 +41,8 @@ public final class AdapterPatientIdentifier extends Adapter<List<Identifier>> {
 		if(valueTax != null) {
 			Identifier identifier = new Identifier();
 			identifier.setUse(IdentifierUse.OFFICIAL);
-			identifier.setType(HelperCodeableConcept.create(BRCoreSystems.SYSTEM_BR_TIPO_DOCUMENTO_INDIVIDUO, BRCoreSystems.CODE_BR_TIPO_DOCUMENTO_INDIVIDUO_CPF));
+			identifier.setType(HelperCodeableConcept.create(Coding.SYSTEM_BR_TIPO_DOCUMENTO_INDIVIDUO, Coding.CODE_BR_TIPO_DOCUMENTO_INDIVIDUO_CPF));
 			identifier.setValue(valueTax);
-			retVal.add(identifier);
-		}
-		
-		if (indexHc > -1) valueHc = rs.getString(indexHc);
-		
-		if(valueHc != null) {
-			Identifier identifier = new Identifier();
-			identifier.setUse(IdentifierUse.OFFICIAL);
-			identifier.setType(HelperCodeableConcept.create(BRCoreSystems.SYSTEM_BR_TIPO_DOCUMENTO_INDIVIDUO, BRCoreSystems.CODE_BR_TIPO_DOCUMENTO_INDIVIDUO_CNS));
-			identifier.setValue(valueHc);
 			retVal.add(identifier);
 		}
 		

@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.adapter;
+package br.com.gointerop.hapi.fhir.adapter.patient;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -8,11 +8,12 @@ import java.util.List;
 import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.HumanName.NameUse;
 
+import br.com.gointerop.hapi.fhir.adapter.IAdapter;
+import br.gov.pe.recife.esus.mappings.MappingPatient;
+
 public final class AdapterHumanName implements IAdapter<List<HumanName>> {
 	private static IAdapter<List<HumanName>> instance;
 
-	private static final String COLUMN_NAME = "no_cidadao";
-	
 	public static IAdapter<List<HumanName>> getInstance() {
 		if(AdapterHumanName.instance == null) {
 			AdapterHumanName.instance = new AdapterHumanName();
@@ -29,7 +30,7 @@ public final class AdapterHumanName implements IAdapter<List<HumanName>> {
 		String valueName = null;
 		
 		try {
-			 indexName = rs.findColumn(COLUMN_NAME);
+			 indexName = rs.findColumn(MappingPatient.name);
 		} catch (SQLException e) {}
 		
 		if (indexName > -1) valueName = rs.getString(indexName);

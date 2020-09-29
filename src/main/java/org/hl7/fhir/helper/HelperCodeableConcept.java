@@ -1,4 +1,4 @@
-package org.hl7.fhir;
+package org.hl7.fhir.helper;
 
 import java.util.ArrayList;
 import java.util.List;

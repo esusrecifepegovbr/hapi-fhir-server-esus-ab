@@ -1,4 +1,4 @@
-package org.hl7.fhir;
+package org.hl7.fhir.helper;
 
 import org.hl7.fhir.r4.model.Meta;
 
