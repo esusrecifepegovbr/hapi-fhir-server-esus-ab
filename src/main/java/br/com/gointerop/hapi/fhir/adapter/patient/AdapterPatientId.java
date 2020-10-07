@@ -5,7 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
-import br.gov.pe.recife.esus.mappings.MappingPatient;
+import br.com.gointerop.hapi.fhir.mapping.MappingPatient;
 
 public class AdapterPatientId extends Adapter<String> {
 	private static Adapter<String> instance;

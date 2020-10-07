@@ -11,7 +11,7 @@ import org.hl7.fhir.r4.model.Identifier.IdentifierUse;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.gov.pe.recife.esus.mappings.MappingPatient;
+import br.com.gointerop.hapi.fhir.mapping.MappingPatient;
 import br.gov.saude.Coding;
 
 public final class AdapterPatientIdentifier extends Adapter<List<Identifier>> {

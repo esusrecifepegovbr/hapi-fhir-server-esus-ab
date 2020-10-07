@@ -1,6 +1,6 @@
-package br.gov.pe.recife.esus.translator;
+package br.com.gointerop.hapi.fhir.translator;
 
-import br.gov.pe.recife.esus.translator.TranslatorResource.TranslatorCatalog;
+import br.com.gointerop.hapi.fhir.translator.TranslatorResource.TranslatorCatalog;
 
 public class TranslatorFactory {
 	public static ITranslator createInstance(TranslatorCatalog resourceType) {

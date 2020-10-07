@@ -1,9 +1,9 @@
-package br.gov.pe.recife.esus.mappings;
-
-import java.lang.reflect.Field;
+package br.com.gointerop.hapi.fhir.mapping;
 
 public class MappingPatient extends Mapping {
 	private static MappingPatient instance;
+	
+	private static final String TABLE_NAME = "tb_cidadao";
 	
 	public static final String _id = "co_seq_cidadao";
 	public static final String _language = null;
@@ -35,5 +35,10 @@ public class MappingPatient extends Mapping {
 		if(MappingPatient.instance == null) MappingPatient.instance = new MappingPatient();
 		
 		return MappingPatient.instance;
+	}
+
+	@Override
+	public String getTableName() {
+		return MappingPatient.TABLE_NAME;
 	}
 }

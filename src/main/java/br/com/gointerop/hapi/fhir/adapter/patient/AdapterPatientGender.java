@@ -7,7 +7,7 @@ import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.gov.pe.recife.esus.mappings.MappingPatient;
+import br.com.gointerop.hapi.fhir.mapping.MappingPatient;
 
 public class AdapterPatientGender extends Adapter<AdministrativeGender> {
 	private static IAdapter<AdministrativeGender> instance;
