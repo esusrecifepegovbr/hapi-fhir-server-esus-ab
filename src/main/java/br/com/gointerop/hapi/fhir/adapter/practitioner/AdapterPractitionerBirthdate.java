@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.adapter.patient;
+package br.com.gointerop.hapi.fhir.adapter.practitioner;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -6,15 +6,15 @@ import java.sql.SQLException;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
+import br.com.gointerop.hapi.fhir.mapper.MapperPractitioner;
 
-public class AdapterPatientBirthdate extends Adapter<Date> {
+public class AdapterPractitionerBirthdate extends Adapter<Date> {
 	private static IAdapter<Date> instance;
 	
 	public static IAdapter<Date> getInstance() {
-		if(AdapterPatientBirthdate.instance == null) AdapterPatientBirthdate.instance = new AdapterPatientBirthdate();
+		if(AdapterPractitionerBirthdate.instance == null) AdapterPractitionerBirthdate.instance = new AdapterPractitionerBirthdate();
 		
-		return AdapterPatientBirthdate.instance;
+		return AdapterPractitionerBirthdate.instance;
 	}
 	
 	@Override
@@ -25,7 +25,7 @@ public class AdapterPatientBirthdate extends Adapter<Date> {
 		Date valueColumn = null;
 
 		try {
-			indexColumn = rs.findColumn(MapperPatient.birthdate);
+			indexColumn = rs.findColumn(MapperPractitioner.birthdate);
 		} catch (SQLException e) {
 		}
 

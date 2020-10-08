@@ -28,7 +28,7 @@ public final class AdapterPatient extends Adapter<Patient> implements IAdapter<P
 		retVal.setMeta(HelperMeta.create(Profile.PROFILE_PATIENT));
 		retVal.setId(AdapterPatientId.getInstance().mapRow(rs, rownumber));
 		retVal.setIdentifier(AdapterPatientIdentifier.getInstance().mapRow(rs, rownumber));
-		retVal.setName(AdapterHumanName.getInstance().mapRow(rs, rownumber));
+		retVal.setName(AdapterPatientHumanName.getInstance().mapRow(rs, rownumber));
 		retVal.setActive(Boolean.parseBoolean(AdapterPatientActive.getInstance().mapRow(rs, rownumber)));
 		retVal.setGender(AdapterPatientGender.getInstance().mapRow(rs, rownumber));
 		retVal.setBirthDate(AdapterPatientBirthdate.getInstance().mapRow(rs, rownumber));

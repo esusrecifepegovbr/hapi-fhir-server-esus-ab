@@ -1,9 +1,10 @@
-package br.com.gointerop.hapi.fhir.mapping;
+package br.com.gointerop.hapi.fhir.mapper;
 
-public class MappingPatient extends Mapping {
-	private static MappingPatient instance;
+public class MapperPatient extends Mapper {
+	private static MapperPatient instance;
 	
 	private static final String TABLE_NAME = "tb_cidadao";
+	private static final String PRIMARY_KEY = "co_seq_cidadao";
 	
 	public static final String _id = "co_seq_cidadao";
 	public static final String _language = null;
@@ -31,14 +32,19 @@ public class MappingPatient extends Mapping {
 	public static final String name = "no_cidadao";
 	public static final String family = "no_cidadao";
 	
-	public static final MappingPatient getInstance() {
-		if(MappingPatient.instance == null) MappingPatient.instance = new MappingPatient();
+	public static final MapperPatient getInstance() {
+		if(MapperPatient.instance == null) MapperPatient.instance = new MapperPatient();
 		
-		return MappingPatient.instance;
+		return MapperPatient.instance;
 	}
 
 	@Override
 	public String getTableName() {
-		return MappingPatient.TABLE_NAME;
+		return TABLE_NAME;
+	}
+
+	@Override
+	public String getPrimaryKey() {
+		return PRIMARY_KEY;
 	}
 }

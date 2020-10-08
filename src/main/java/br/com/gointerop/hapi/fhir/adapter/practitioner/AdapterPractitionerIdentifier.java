@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.adapter.patient;
+package br.com.gointerop.hapi.fhir.adapter.practitioner;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,18 +11,18 @@ import org.hl7.fhir.r4.model.Identifier.IdentifierUse;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
+import br.com.gointerop.hapi.fhir.mapper.MapperPractitioner;
 import br.gov.saude.Coding;
 
-public final class AdapterPatientIdentifier extends Adapter<List<Identifier>> {
+public final class AdapterPractitionerIdentifier extends Adapter<List<Identifier>> {
 	private static IAdapter<List<Identifier>> instance;
 	
 	public static IAdapter<List<Identifier>> getInstance() {
-		if (AdapterPatientIdentifier.instance == null) {
-			AdapterPatientIdentifier.instance = new AdapterPatientIdentifier();
+		if (AdapterPractitionerIdentifier.instance == null) {
+			AdapterPractitionerIdentifier.instance = new AdapterPractitionerIdentifier();
 		}
 
-		return AdapterPatientIdentifier.instance;
+		return AdapterPractitionerIdentifier.instance;
 	}
 
 	@Override
@@ -33,7 +33,7 @@ public final class AdapterPatientIdentifier extends Adapter<List<Identifier>> {
 		String valueTax = null;
 		
 		try {
-			 indexTax = rs.findColumn(MapperPatient.identifier);
+			 indexTax = rs.findColumn(MapperPractitioner.identifier);
 		} catch (SQLException e) {}
 		
 		if (indexTax > -1) valueTax = rs.getString(indexTax);

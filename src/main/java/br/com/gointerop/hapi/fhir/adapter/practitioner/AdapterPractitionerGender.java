@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.adapter.patient;
+package br.com.gointerop.hapi.fhir.adapter.practitioner;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,17 +7,17 @@ import org.hl7.fhir.r4.model.Enumerations.AdministrativeGender;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
+import br.com.gointerop.hapi.fhir.mapper.MapperPractitioner;
 
-public class AdapterPatientGender extends Adapter<AdministrativeGender> {
+public class AdapterPractitionerGender extends Adapter<AdministrativeGender> {
 	private static IAdapter<AdministrativeGender> instance;
 
 	public static IAdapter<AdministrativeGender> getInstance() {
-		if (AdapterPatientGender.instance == null) {
-			AdapterPatientGender.instance = new AdapterPatientGender();
+		if (AdapterPractitionerGender.instance == null) {
+			AdapterPractitionerGender.instance = new AdapterPractitionerGender();
 		}
 
-		return AdapterPatientGender.instance;
+		return AdapterPractitionerGender.instance;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class AdapterPatientGender extends Adapter<AdministrativeGender> {
 		int indexGender = -1, valueGender = -1;
 
 		try {
-			indexGender = rs.findColumn(MapperPatient.gender);
+			indexGender = rs.findColumn(MapperPractitioner.gender);
 		} catch (SQLException e) {
 		}
 

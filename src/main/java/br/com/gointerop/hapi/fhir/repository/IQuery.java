@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.repository.query;
+package br.com.gointerop.hapi.fhir.repository;
 
 import java.util.HashMap;
 

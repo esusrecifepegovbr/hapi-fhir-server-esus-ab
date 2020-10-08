@@ -1,19 +1,19 @@
-package br.com.gointerop.hapi.fhir.adapter.patient;
+package br.com.gointerop.hapi.fhir.adapter.practitioner;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
-import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
+import br.com.gointerop.hapi.fhir.mapper.MapperPractitioner;
 
-public class AdapterPatientId extends Adapter<String> {
+public class AdapterPractitionerId extends Adapter<String> {
 	private static Adapter<String> instance;
 
 	public static Adapter<String> getInstance() {
-		if (AdapterPatientId.instance == null)
-			AdapterPatientId.instance = new AdapterPatientId();
+		if (AdapterPractitionerId.instance == null)
+			AdapterPractitionerId.instance = new AdapterPractitionerId();
 
-		return AdapterPatientId.instance;
+		return AdapterPractitionerId.instance;
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class AdapterPatientId extends Adapter<String> {
 		int valueColumn = -1;
 
 		try {
-			indexColumn = rs.findColumn(MapperPatient._id);
+			indexColumn = rs.findColumn(MapperPractitioner._id);
 		} catch (SQLException e) {
 		}
 

@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.mapping.MappingPatient;
+import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
 
-public class AdapterPatientActive extends Adapter {
+public class AdapterPatientActive extends Adapter<String> {
 	private static IAdapter<String> instance;
 
 	public static IAdapter<String> getInstance() {
@@ -24,7 +24,7 @@ public class AdapterPatientActive extends Adapter {
 		int indexActive = -1, valueActive = -1;
 
 		try {
-			indexActive = rs.findColumn(MappingPatient.active);
+			indexActive = rs.findColumn(MapperPatient.active);
 		} catch (SQLException e) {
 		}
 

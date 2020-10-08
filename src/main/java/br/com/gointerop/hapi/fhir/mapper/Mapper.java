@@ -1,13 +1,11 @@
-package br.com.gointerop.hapi.fhir.mapping;
+package br.com.gointerop.hapi.fhir.mapper;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
 import ca.uhn.fhir.rest.param.BaseParam;
 
-public abstract class Mapping implements IMapping {
-	public abstract String getTableName();
-
+public abstract class Mapper implements IMapper {
 	public HashMap<String, BaseParam> map(HashMap<String, BaseParam> params) {
 		HashMap<String, BaseParam> retVal = new HashMap<String, BaseParam>();
 		

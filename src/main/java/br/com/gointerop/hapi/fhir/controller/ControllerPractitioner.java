@@ -3,12 +3,12 @@ package br.com.gointerop.hapi.fhir.controller;
 import java.util.HashMap;
 import java.util.List;
 
-import org.hl7.fhir.r4.model.Patient;
+import org.hl7.fhir.r4.model.Practitioner;
 
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.adapter.patient.AdapterPatient;
+import br.com.gointerop.hapi.fhir.adapter.practitioner.AdapterPractitioner;
 import br.com.gointerop.hapi.fhir.mapper.IMapper;
-import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
+import br.com.gointerop.hapi.fhir.mapper.MapperPractitioner;
 import br.com.gointerop.hapi.fhir.repository.IQuery;
 import br.com.gointerop.hapi.fhir.repository.JdbcTemplateHikariDataSource;
 import br.com.gointerop.hapi.fhir.repository.Query;
@@ -18,19 +18,19 @@ import br.com.gointerop.hapi.fhir.translator.TranslatorResource.TranslatorCatalo
 import ca.uhn.fhir.rest.param.BaseParam;
 import ca.uhn.fhir.rest.server.exceptions.ResourceNotFoundException;
 
-public final class ControllerPatient extends Controller<Patient> {
-	private IQuery iQuery = new Query(MapperPatient.getInstance().getTableName(), MapperPatient.getInstance().getPrimaryKey());
-	private IMapper iMapping = MapperPatient.getInstance();
-	private ITranslator iTranslator = TranslatorFactory.createInstance(TranslatorCatalog.PATIENT);
-	private IAdapter<Patient> iAdapter = AdapterPatient.getInstance();
+public final class ControllerPractitioner extends Controller<Practitioner> {
+	private IQuery iQuery = new Query(MapperPractitioner.getInstance().getTableName(), MapperPractitioner.getInstance().getPrimaryKey());
+	private IMapper iMapping = MapperPractitioner.getInstance();
+	private ITranslator iTranslator = TranslatorFactory.createInstance(TranslatorCatalog.PRACTITIONER);
+	private IAdapter<Practitioner> iAdapter = AdapterPractitioner.getInstance();
 	
-	public static IController<Patient> getInstance() {
-		return new ControllerPatient();
+	public static IController<Practitioner> getInstance() {
+		return new ControllerPractitioner();
 	}
 	
 	@Override
-	public Patient readById(Long id) {
-		List<Patient> retVal = JdbcTemplateHikariDataSource.getJdbcTemplate().query(iQuery.readById(id), iAdapter);
+	public Practitioner readById(Long id) {
+		List<Practitioner> retVal = JdbcTemplateHikariDataSource.getJdbcTemplate().query(iQuery.readById(id), iAdapter);
 		
 		if(retVal.size() < 1) throw new ResourceNotFoundException(id.toString());
 		
@@ -38,8 +38,8 @@ public final class ControllerPatient extends Controller<Patient> {
 	}
 
 	@Override
-	public List<Patient> search(HashMap<String, BaseParam> params) {
-		List<Patient> retVal = null;
+	public List<Practitioner> search(HashMap<String, BaseParam> params) {
+		List<Practitioner> retVal = null;
 		HashMap<String, BaseParam> translatedValues = iTranslator.translate(params);
 		HashMap<String, BaseParam> mappedColumns = iMapping.map(translatedValues);
 		retVal = JdbcTemplateHikariDataSource.getJdbcTemplate().query(iQuery.search(mappedColumns), iAdapter);

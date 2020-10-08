@@ -9,17 +9,17 @@ import org.hl7.fhir.r4.model.HumanName;
 import org.hl7.fhir.r4.model.HumanName.NameUse;
 
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.mapping.MappingPatient;
+import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
 
-public final class AdapterHumanName implements IAdapter<List<HumanName>> {
+public final class AdapterPatientHumanName implements IAdapter<List<HumanName>> {
 	private static IAdapter<List<HumanName>> instance;
 
 	public static IAdapter<List<HumanName>> getInstance() {
-		if(AdapterHumanName.instance == null) {
-			AdapterHumanName.instance = new AdapterHumanName();
+		if(AdapterPatientHumanName.instance == null) {
+			AdapterPatientHumanName.instance = new AdapterPatientHumanName();
 		}
 		
-		return AdapterHumanName.instance;
+		return AdapterPatientHumanName.instance;
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public final class AdapterHumanName implements IAdapter<List<HumanName>> {
 		String valueName = null;
 		
 		try {
-			 indexName = rs.findColumn(MappingPatient.name);
+			 indexName = rs.findColumn(MapperPatient.name);
 		} catch (SQLException e) {}
 		
 		if (indexName > -1) valueName = rs.getString(indexName);

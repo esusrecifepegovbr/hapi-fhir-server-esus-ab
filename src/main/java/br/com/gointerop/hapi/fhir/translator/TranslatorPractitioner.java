@@ -2,13 +2,13 @@ package br.com.gointerop.hapi.fhir.translator;
 
 import java.util.HashMap;
 
-import org.hl7.fhir.valueset.Patient;
+import org.hl7.fhir.valueset.Practitioner;
 
 import br.com.gointerop.hapi.fhir.util.UtilBaseParam;
 import br.gov.saude.esusab.valueset.AdministrativeGender;
 import ca.uhn.fhir.rest.param.BaseParam;
 
-public class TranslatorPatient extends Translator {
+public class TranslatorPractitioner extends Translator {
 	private static final String FIELD_GENDER = "gender";
 
 	@Override
@@ -41,10 +41,10 @@ public class TranslatorPatient extends Translator {
 		int retVal = AdministrativeGender.UNKNOWN;
 
 		switch (value) {
-		case Patient.GENDER_MALE:
+		case Practitioner.GENDER_MALE:
 			retVal = AdministrativeGender.MALE;
 			break;
-		case Patient.GENDER_FEMALE:
+		case Practitioner.GENDER_FEMALE:
 			retVal = AdministrativeGender.FEMALE;
 			break;
 		default:
