@@ -41,10 +41,10 @@ public class TranslatorPatient extends Translator {
 		int retVal = AdministrativeGender.UNKNOWN;
 
 		switch (value) {
-		case Patient.GENDER_MALE:
+		case Patient.male:
 			retVal = AdministrativeGender.MALE;
 			break;
-		case Patient.GENDER_FEMALE:
+		case Patient.female:
 			retVal = AdministrativeGender.FEMALE;
 			break;
 		default:

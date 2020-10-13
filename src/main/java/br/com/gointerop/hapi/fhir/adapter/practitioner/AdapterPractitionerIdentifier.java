@@ -11,8 +11,12 @@ import org.hl7.fhir.r4.model.Identifier.IdentifierUse;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.mapper.MapperPractitioner;
-import br.gov.saude.Coding;
+import br.com.gointerop.hapi.fhir.coding.CodingPractitionerIdentifier;
+import br.com.gointerop.hapi.fhir.coding.ICoding;
+import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
+import br.gov.pe.recife.esus.system.PatientIdentifier;
+import br.gov.pe.recife.esus.system.PractitionerIdentifier;
+import ca.uhn.fhir.model.dstu2.resource.Practitioner;
 
 public final class AdapterPractitionerIdentifier extends Adapter<List<Identifier>> {
 	private static IAdapter<List<Identifier>> instance;
@@ -28,12 +32,13 @@ public final class AdapterPractitionerIdentifier extends Adapter<List<Identifier
 	@Override
 	public List<Identifier> mapRow(ResultSet rs, int rownumber) throws SQLException {
 		List<Identifier> retVal = new ArrayList<Identifier>();
+		ICoding iCoding = new CodingPractitionerIdentifier(PractitionerIdentifier.URL, org.hl7.fhir.valueset.Identifier.value.TAX);
 
 		int indexTax = -1;
 		String valueTax = null;
 		
 		try {
-			 indexTax = rs.findColumn(MapperPractitioner.identifier);
+			 indexTax = rs.findColumn(MapperPatient.identifier);
 		} catch (SQLException e) {}
 		
 		if (indexTax > -1) valueTax = rs.getString(indexTax);
@@ -41,7 +46,7 @@ public final class AdapterPractitionerIdentifier extends Adapter<List<Identifier
 		if(valueTax != null) {
 			Identifier identifier = new Identifier();
 			identifier.setUse(IdentifierUse.OFFICIAL);
-			identifier.setType(HelperCodeableConcept.create(Coding.SYSTEM_BR_TIPO_DOCUMENTO_INDIVIDUO, Coding.CODE_BR_TIPO_DOCUMENTO_INDIVIDUO_CPF));
+			identifier.setType(HelperCodeableConcept.create(iCoding.getSystem(), iCoding.getValue()));
 			identifier.setValue(valueTax);
 			retVal.add(identifier);
 		}

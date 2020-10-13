@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.adapter.patient;
+package br.com.gointerop.hapi.fhir.adapter.organization;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,32 +11,32 @@ import org.hl7.fhir.r4.model.Identifier.IdentifierUse;
 
 import br.com.gointerop.hapi.fhir.adapter.Adapter;
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
-import br.com.gointerop.hapi.fhir.coding.CodingPatientIdentifier;
+import br.com.gointerop.hapi.fhir.coding.CodingOrganization;
 import br.com.gointerop.hapi.fhir.coding.ICoding;
-import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
-import br.gov.pe.recife.esus.system.PatientIdentifier;
+import br.com.gointerop.hapi.fhir.mapper.MapperOrganization;
+import br.gov.pe.recife.esus.system.OrganizationIdentifier;
 
-public final class AdapterPatientIdentifier extends Adapter<List<Identifier>> {
+public final class AdapterOrganizationIdentifier extends Adapter<List<Identifier>> {
 	private static IAdapter<List<Identifier>> instance;
 	
 	public static IAdapter<List<Identifier>> getInstance() {
-		if (AdapterPatientIdentifier.instance == null) {
-			AdapterPatientIdentifier.instance = new AdapterPatientIdentifier();
+		if (AdapterOrganizationIdentifier.instance == null) {
+			AdapterOrganizationIdentifier.instance = new AdapterOrganizationIdentifier();
 		}
 
-		return AdapterPatientIdentifier.instance;
+		return AdapterOrganizationIdentifier.instance;
 	}
 
 	@Override
 	public List<Identifier> mapRow(ResultSet rs, int rownumber) throws SQLException {
 		List<Identifier> retVal = new ArrayList<Identifier>();
-		ICoding iCoding = new CodingPatientIdentifier(PatientIdentifier.URL, org.hl7.fhir.valueset.Identifier.value.TAX);
+		ICoding iCoding = new CodingOrganization(OrganizationIdentifier.URL, org.hl7.fhir.valueset.Identifier.value.HC);
 
 		int indexTax = -1;
 		String valueTax = null;
 		
 		try {
-			 indexTax = rs.findColumn(MapperPatient.identifier);
+			 indexTax = rs.findColumn(MapperOrganization.identifier);
 		} catch (SQLException e) {}
 		
 		if (indexTax > -1) valueTax = rs.getString(indexTax);

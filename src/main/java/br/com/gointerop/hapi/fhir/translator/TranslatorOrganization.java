@@ -2,13 +2,11 @@ package br.com.gointerop.hapi.fhir.translator;
 
 import java.util.HashMap;
 
-import org.hl7.fhir.valueset.Practitioner;
-
 import br.com.gointerop.hapi.fhir.util.UtilBaseParam;
 import br.gov.saude.esusab.valueset.AdministrativeGender;
 import ca.uhn.fhir.rest.param.BaseParam;
 
-public class TranslatorPractitioner extends Translator {
+public class TranslatorOrganization extends Translator {
 	private static final String FIELD_GENDER = "gender";
 
 	@Override
@@ -23,8 +21,8 @@ public class TranslatorPractitioner extends Translator {
 			
 			switch (key) {
 			case FIELD_GENDER:
-				translatedValue = translateGender(UtilBaseParam.toValue(value));
-				break;
+				default:
+					break;
 			}
 			
 			if(translatedValue != null) {
@@ -32,23 +30,6 @@ public class TranslatorPractitioner extends Translator {
 			} else {
 				retVal.put(key, value);
 			}
-		}
-
-		return retVal;
-	}
-
-	public Object translateGender(String value) {
-		int retVal = AdministrativeGender.UNKNOWN;
-
-		switch (value) {
-		case Practitioner.male:
-			retVal = AdministrativeGender.MALE;
-			break;
-		case Practitioner.female:
-			retVal = AdministrativeGender.FEMALE;
-			break;
-		default:
-			retVal = AdministrativeGender.UNKNOWN;
 		}
 
 		return retVal;
