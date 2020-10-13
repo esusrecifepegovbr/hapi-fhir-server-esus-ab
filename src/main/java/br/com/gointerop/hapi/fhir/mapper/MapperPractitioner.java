@@ -13,9 +13,9 @@ public class MapperPractitioner extends Mapper {
 	public static final String gender = "co_sexo";
 	public static final String addressCountry = null;
 	public static final String telecom = "nu_telefone_residencial";
-	public static final String addressCity = "co_localidade";
+	public static final String addressCity = "co_localidade_endereco";
 	public static final String email = "ds_email";
-	public static final String given = "no_cidadao";
+	public static final String given = "no_profissional";
 	public static final String identifier = "nu_cpf";
 	public static final String address = "ds_logradouro";
 	public static final String addressPostalCode = "ds_cep";

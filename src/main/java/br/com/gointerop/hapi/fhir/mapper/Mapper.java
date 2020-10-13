@@ -18,7 +18,7 @@ public abstract class Mapper implements IMapper {
 				try {
 					String fieldName = field.getName();
 					String fieldValue = field.get(null).toString();
-					isPropertyEqual = fieldName.equals(key);
+					isPropertyEqual = fieldName.equalsIgnoreCase(key);
 					
 					if (isPropertyEqual && fieldValue != null && value != null)
 						retVal.put(fieldValue, value);
