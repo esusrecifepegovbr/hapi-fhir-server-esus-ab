@@ -278,13 +278,13 @@
 				<artifactId>jetty-maven-plugin</artifactId>
 				<version>${jetty_version}</version>
 				<configuration>
+					<jettyXml>
+						${project.basedir}/src/test/resources/jetty.xml,${project.basedir}/src/test/resources/jetty-http.xml,${project.basedir}/src/test/resources/jetty-ssl.xml,${project.basedir}/src/test/resources/jetty-https.xml
+					</jettyXml>
 					<webApp>
 						<contextPath>/hapi-fhir-esus-ab</contextPath>
 						<allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
 					</webApp>
-					<httpConnector>
-						<port>8082</port>
-					</httpConnector>
 				</configuration>
 			</plugin>
 
