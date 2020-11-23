@@ -16,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.cors.CorsConfiguration;
 
+import br.com.gointerop.hapi.fhir.provider.ProviderBundle;
 import br.com.gointerop.hapi.fhir.provider.ProviderOrganization;
 import br.com.gointerop.hapi.fhir.provider.ProviderPatient;
 import br.com.gointerop.hapi.fhir.provider.ProviderPractitioner;
@@ -118,6 +119,7 @@ public class BaseJpaRestfulServer extends RestfulServer {
     registerProvider(new ProviderPatient(appCtx.getBean(FhirContext.class)));
     registerProvider(new ProviderPractitioner(appCtx.getBean(FhirContext.class)));
     registerProvider(new ProviderOrganization(appCtx.getBean(FhirContext.class)));
+    registerProvider(new ProviderBundle(appCtx.getBean(FhirContext.class)));
     registerProviders(resourceProviders.createProviders());
     registerProvider(systemProvider);
 

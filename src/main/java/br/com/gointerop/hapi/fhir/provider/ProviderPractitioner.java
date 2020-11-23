@@ -1,12 +1,7 @@
 package br.com.gointerop.hapi.fhir.provider;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -29,11 +24,6 @@ public class ProviderPractitioner implements IResourceProvider {
 	private IController<Practitioner> iControllerPractitioner = ControllerPractitioner.getInstance();
 
 	FhirContext fhirContext;
-
-	protected Map<String, TreeMap<Long, Practitioner>> myIdToVersionToResourceMap = Collections
-			.synchronizedMap(new LinkedHashMap<>());
-	protected Map<String, LinkedList<Practitioner>> myIdToHistory = Collections.synchronizedMap(new LinkedHashMap<>());
-	protected LinkedList<Practitioner> myTypeHistory = new LinkedList<>();
 
 	public ProviderPractitioner(FhirContext fhirContext) {
 		this.fhirContext = fhirContext;

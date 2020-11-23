@@ -1,12 +1,7 @@
 package br.com.gointerop.hapi.fhir.provider;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
@@ -21,7 +16,6 @@ import ca.uhn.fhir.rest.annotation.Read;
 import ca.uhn.fhir.rest.annotation.Search;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.param.BaseParam;
-import ca.uhn.fhir.rest.param.DateParam;
 import ca.uhn.fhir.rest.param.NumberParam;
 import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
@@ -30,11 +24,6 @@ public class ProviderOrganization implements IResourceProvider {
 	private IController<Organization> iControllerOrganization = ControllerOrganization.getInstance();
 
 	FhirContext fhirContext;
-
-	protected Map<String, TreeMap<Long, Organization>> myIdToVersionToResourceMap = Collections
-			.synchronizedMap(new LinkedHashMap<>());
-	protected Map<String, LinkedList<Organization>> myIdToHistory = Collections.synchronizedMap(new LinkedHashMap<>());
-	protected LinkedList<Organization> myTypeHistory = new LinkedList<>();
 
 	public ProviderOrganization(FhirContext fhirContext) {
 		this.fhirContext = fhirContext;

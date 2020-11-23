@@ -1,24 +1,24 @@
 package br.com.gointerop.hapi.fhir.provider;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r4.model.IdType;
+import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.Patient;
 
 import br.com.gointerop.hapi.fhir.controller.ControllerPatient;
 import br.com.gointerop.hapi.fhir.controller.IController;
 import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.rest.annotation.Create;
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.OptionalParam;
 import ca.uhn.fhir.rest.annotation.Read;
+import ca.uhn.fhir.rest.annotation.ResourceParam;
 import ca.uhn.fhir.rest.annotation.Search;
+import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.param.BaseParam;
 import ca.uhn.fhir.rest.param.DateParam;
@@ -30,11 +30,6 @@ public class ProviderPatient implements IResourceProvider {
 	private IController<Patient> iControllerPatient = ControllerPatient.getInstance();
 
 	FhirContext fhirContext;
-
-	protected Map<String, TreeMap<Long, Patient>> myIdToVersionToResourceMap = Collections
-			.synchronizedMap(new LinkedHashMap<>());
-	protected Map<String, LinkedList<Patient>> myIdToHistory = Collections.synchronizedMap(new LinkedHashMap<>());
-	protected LinkedList<Patient> myTypeHistory = new LinkedList<>();
 
 	public ProviderPatient(FhirContext fhirContext) {
 		this.fhirContext = fhirContext;
@@ -51,11 +46,10 @@ public class ProviderPatient implements IResourceProvider {
 	}
 
 	@Search
-	public List<Patient> search(
-			@OptionalParam(name = Patient.SP_RES_ID) NumberParam _id, 
-			@OptionalParam(name = Patient.SP_RES_LANGUAGE) StringParam _language, 
-			@OptionalParam(name = Patient.SP_BIRTHDATE) DateParam birthDate, 
-			@OptionalParam(name = Patient.SP_DECEASED) StringParam deceased, 
+	public List<Patient> search(@OptionalParam(name = Patient.SP_RES_ID) NumberParam _id,
+			@OptionalParam(name = Patient.SP_RES_LANGUAGE) StringParam _language,
+			@OptionalParam(name = Patient.SP_BIRTHDATE) DateParam birthDate,
+			@OptionalParam(name = Patient.SP_DECEASED) StringParam deceased,
 			@OptionalParam(name = Patient.SP_ADDRESS_STATE) StringParam addressState,
 			@OptionalParam(name = Patient.SP_GENDER) StringParam gender,
 			@OptionalParam(name = Patient.SP_LINK) StringParam link,
@@ -76,12 +70,11 @@ public class ProviderPatient implements IResourceProvider {
 			@OptionalParam(name = Patient.SP_ORGANIZATION) StringParam organization,
 			@OptionalParam(name = Patient.SP_ADDRESS_USE) StringParam addressUse,
 			@OptionalParam(name = Patient.SP_NAME) StringParam name,
-			@OptionalParam(name = Patient.SP_FAMILY) StringParam family
-			) {
-		
-		HashMap<String, BaseParam> params = new HashMap<String, BaseParam>();		
-		
-		params.put(Patient.SP_RES_ID, _id); 
+			@OptionalParam(name = Patient.SP_FAMILY) StringParam family) {
+
+		HashMap<String, BaseParam> params = new HashMap<String, BaseParam>();
+
+		params.put(Patient.SP_RES_ID, _id);
 		params.put(Patient.SP_RES_LANGUAGE, _language);
 		params.put(Patient.SP_BIRTHDATE, birthDate);
 		params.put(Patient.SP_DECEASED, deceased);
@@ -106,8 +99,7 @@ public class ProviderPatient implements IResourceProvider {
 		params.put(Patient.SP_ADDRESS_USE, addressUse);
 		params.put(Patient.SP_NAME, name);
 		params.put(Patient.SP_FAMILY, family);
-		
+
 		return iControllerPatient.search(params);
 	}
-
 }
