@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.starter;
+package br.com.gointerop.hapi.fhir;
 
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 

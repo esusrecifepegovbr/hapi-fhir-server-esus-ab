@@ -10,4 +10,11 @@ public class UtilDate {
 		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.format(date);
 	}
+	
+	public static String toDateTypeString(Date date) {
+		// Conversion
+		SimpleDateFormat sdf;
+		sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		return sdf.format(date);
+	}
 }

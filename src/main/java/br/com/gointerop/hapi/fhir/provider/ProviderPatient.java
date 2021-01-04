@@ -5,20 +5,16 @@ import java.util.List;
 
 import org.hl7.fhir.instance.model.api.IBaseResource;
 import org.hl7.fhir.instance.model.api.IIdType;
-import org.hl7.fhir.r4.model.IdType;
-import org.hl7.fhir.r4.model.OperationOutcome;
 import org.hl7.fhir.r4.model.Patient;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.gointerop.hapi.fhir.controller.ControllerPatient;
 import br.com.gointerop.hapi.fhir.controller.IController;
 import ca.uhn.fhir.context.FhirContext;
-import ca.uhn.fhir.rest.annotation.Create;
 import ca.uhn.fhir.rest.annotation.IdParam;
 import ca.uhn.fhir.rest.annotation.OptionalParam;
 import ca.uhn.fhir.rest.annotation.Read;
-import ca.uhn.fhir.rest.annotation.ResourceParam;
 import ca.uhn.fhir.rest.annotation.Search;
-import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.api.server.RequestDetails;
 import ca.uhn.fhir.rest.param.BaseParam;
 import ca.uhn.fhir.rest.param.DateParam;
@@ -27,13 +23,12 @@ import ca.uhn.fhir.rest.param.StringParam;
 import ca.uhn.fhir.rest.server.IResourceProvider;
 
 public class ProviderPatient implements IResourceProvider {
-	private IController<Patient> iControllerPatient = ControllerPatient.getInstance();
-
+	
+	@Autowired
 	FhirContext fhirContext;
-
-	public ProviderPatient(FhirContext fhirContext) {
-		this.fhirContext = fhirContext;
-	}
+	
+	@Autowired
+	private IController<Patient> controllerPatient;
 
 	@Override
 	public Class<? extends IBaseResource> getResourceType() {
@@ -42,7 +37,7 @@ public class ProviderPatient implements IResourceProvider {
 
 	@Read(version = true)
 	public Patient read(@IdParam IIdType theId, RequestDetails theRequestDetails) {
-		return iControllerPatient.readById(theId.getIdPartAsLong());
+		return controllerPatient.readById(theId.getIdPart());
 	}
 
 	@Search
@@ -100,6 +95,6 @@ public class ProviderPatient implements IResourceProvider {
 		params.put(Patient.SP_NAME, name);
 		params.put(Patient.SP_FAMILY, family);
 
-		return iControllerPatient.search(params);
+		return controllerPatient.search(params);
 	}
 }

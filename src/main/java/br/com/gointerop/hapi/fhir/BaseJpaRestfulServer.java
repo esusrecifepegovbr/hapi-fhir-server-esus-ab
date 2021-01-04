@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.starter;
+package br.com.gointerop.hapi.fhir;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -16,6 +16,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.cors.CorsConfiguration;
 
+import br.com.gointerop.hapi.fhir.controller.ControllerFactory;
+import br.com.gointerop.hapi.fhir.controller.ControllerPatient;
 import br.com.gointerop.hapi.fhir.provider.ProviderBundle;
 import br.com.gointerop.hapi.fhir.provider.ProviderOrganization;
 import br.com.gointerop.hapi.fhir.provider.ProviderPatient;
@@ -66,9 +68,6 @@ public class BaseJpaRestfulServer extends RestfulServer {
 
   private static final long serialVersionUID = 1L;
   
-  @Autowired
-  ProviderPatient providerPatient;
-
   @SuppressWarnings("unchecked")
   @Override
   protected void initialize() throws ServletException {
@@ -116,10 +115,10 @@ public class BaseJpaRestfulServer extends RestfulServer {
 
     setFhirContext(appCtx.getBean(FhirContext.class));
 
-    registerProvider(new ProviderPatient(appCtx.getBean(FhirContext.class)));
-    registerProvider(new ProviderPractitioner(appCtx.getBean(FhirContext.class)));
-    registerProvider(new ProviderOrganization(appCtx.getBean(FhirContext.class)));
-    registerProvider(new ProviderBundle(appCtx.getBean(FhirContext.class)));
+    registerProvider(appCtx.getBean(ProviderPatient.class));
+    //registerProvider(new ProviderPractitioner(appCtx.getBean(FhirContext.class)));
+    //registerProvider(new ProviderOrganization(appCtx.getBean(FhirContext.class)));
+    registerProvider(appCtx.getBean(ProviderBundle.class));
     registerProviders(resourceProviders.createProviders());
     registerProvider(systemProvider);
 

@@ -36,7 +36,7 @@ public class ProviderOrganization implements IResourceProvider {
 
 	@Read(version = true)
 	public Organization read(@IdParam IIdType theId, RequestDetails theRequestDetails) {
-		return iControllerOrganization.readById(theId.getIdPartAsLong());
+		return iControllerOrganization.readById(theId.getIdPart());
 	}
 
 	@Search

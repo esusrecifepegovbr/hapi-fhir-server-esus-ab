@@ -99,7 +99,7 @@ public class PersistenceProperties {
 	}
 
 	public static Integer getDataSourceMaxPoolSize() {
-		return PersistenceProperties.getIntegerProperty(DATASOURCE_MAX_POOL_SIZE, 10);
+		return PersistenceProperties.getIntegerProperty(DATASOURCE_MAX_POOL_SIZE, 1);
 	}
 	
 	private static Integer getIntegerProperty(String propertyName, Integer defaultValue) {

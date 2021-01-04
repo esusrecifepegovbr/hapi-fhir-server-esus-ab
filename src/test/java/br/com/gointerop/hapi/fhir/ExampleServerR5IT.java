@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.starter;
+package br.com.gointerop.hapi.fhir;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.rest.api.CacheControlDirective;
@@ -13,16 +13,18 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.client.ClientUpgradeRequest;
 import org.eclipse.jetty.websocket.client.WebSocketClient;
-import org.hl7.fhir.dstu3.model.Bundle;
-import org.hl7.fhir.dstu3.model.Observation;
-import org.hl7.fhir.dstu3.model.Patient;
-import org.hl7.fhir.dstu3.model.Subscription;
 import org.hl7.fhir.instance.model.api.IIdType;
+import org.hl7.fhir.r5.model.Bundle;
+import org.hl7.fhir.r5.model.Enumerations;
+import org.hl7.fhir.r5.model.Observation;
+import org.hl7.fhir.r5.model.Patient;
+import org.hl7.fhir.r5.model.Subscription;
+import org.hl7.fhir.r5.model.SubscriptionTopic;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import br.com.gointerop.hapi.fhir.starter.HapiProperties;
+import br.com.gointerop.hapi.fhir.HapiProperties;
 
 import java.net.URI;
 import java.nio.file.Paths;
@@ -30,11 +32,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import static ca.uhn.fhir.util.TestUtil.waitForSize;
+import static org.awaitility.Awaitility.await;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ExampleServerDstu3IT {
+public class ExampleServerR5IT {
 
-  private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(ExampleServerDstu3IT.class);
+  private static final org.slf4j.Logger ourLog = org.slf4j.LoggerFactory.getLogger(ExampleServerR5IT.class);
   private static IGenericClient ourClient;
   private static FhirContext ourCtx;
   private static int ourPort;
@@ -42,12 +45,10 @@ public class ExampleServerDstu3IT {
 
   static {
     HapiProperties.forceReload();
-    HapiProperties.setProperty(HapiProperties.FHIR_VERSION, "DSTU3");
-    HapiProperties.setProperty(HapiProperties.DATASOURCE_URL, "jdbc:h2:mem:dbr3");
+    HapiProperties.setProperty(HapiProperties.DATASOURCE_URL, "jdbc:h2:mem:dbr5");
+    HapiProperties.setProperty(HapiProperties.FHIR_VERSION, "R5");
     HapiProperties.setProperty(HapiProperties.SUBSCRIPTION_WEBSOCKET_ENABLED, "true");
-    HapiProperties.setProperty(HapiProperties.ALLOW_EXTERNAL_REFERENCES, "true");
-    HapiProperties.setProperty(HapiProperties.ALLOW_PLACEHOLDER_REFERENCES, "true");
-    ourCtx = FhirContext.forDstu3();
+    ourCtx = FhirContext.forR5();
   }
 
   @Test
@@ -65,18 +66,24 @@ public class ExampleServerDstu3IT {
 
   @Test
   public void testWebsocketSubscription() throws Exception {
+
+    /*
+     * Create topic
+     */
+    SubscriptionTopic topic = new SubscriptionTopic();
+    topic.getResourceTrigger().getQueryCriteria().setCurrent("Observation?status=final");
+
     /*
      * Create subscription
      */
     Subscription subscription = new Subscription();
+    subscription.getTopic().setResource(topic);
     subscription.setReason("Monitor new neonatal function (note, age will be determined by the monitor)");
-    subscription.setStatus(Subscription.SubscriptionStatus.REQUESTED);
-    subscription.setCriteria("Observation?status=final");
-
-    Subscription.SubscriptionChannelComponent channel = new Subscription.SubscriptionChannelComponent();
-    channel.setType(Subscription.SubscriptionChannelType.WEBSOCKET);
-    channel.setPayload("application/json");
-    subscription.setChannel(channel);
+    subscription.setStatus(Enumerations.SubscriptionState.REQUESTED);
+    subscription.getChannelType()
+      .setSystem("http://terminology.hl7.org/CodeSystem/subscription-channel-type")
+      .setCode("websocket");
+    subscription.setContentType("application/json");
 
     MethodOutcome methodOutcome = ourClient.create().resource(subscription).execute();
     IIdType mySubscriptionId = methodOutcome.getId();
@@ -104,16 +111,13 @@ public class ExampleServerDstu3IT {
      * Create a matching resource
      */
     Observation obs = new Observation();
-    obs.setStatus(Observation.ObservationStatus.FINAL);
+    obs.setStatus(Enumerations.ObservationStatus.FINAL);
     ourClient.create().resource(obs).execute();
-
-    // Give some time for the subscription to deliver
-    Thread.sleep(2000);
 
     /*
      * Ensure that we receive a ping on the websocket
      */
-    waitForSize(1, () -> mySocketImplementation.myPingCount);
+    await().until(()->mySocketImplementation.myPingCount > 0);
 
     /*
      * Clean up
@@ -136,6 +140,7 @@ public class ExampleServerDstu3IT {
 
     WebAppContext webAppContext = new WebAppContext();
     webAppContext.setContextPath("/hapi-fhir-jpaserver");
+    webAppContext.setDisplayName("HAPI FHIR");
     webAppContext.setDescriptor(path + "/src/main/webapp/WEB-INF/web.xml");
     webAppContext.setResourceBase(path + "/target/hapi-fhir-jpaserver-starter");
     webAppContext.setParentLoaderPriority(true);
@@ -148,6 +153,7 @@ public class ExampleServerDstu3IT {
     ourCtx.getRestfulClientFactory().setServerValidationMode(ServerValidationModeEnum.NEVER);
     ourCtx.getRestfulClientFactory().setSocketTimeout(1200 * 1000);
     String ourServerBase = "http://localhost:" + ourPort + "/hapi-fhir-jpaserver/fhir/";
+
     ourClient = ourCtx.newRestfulGenericClient(ourServerBase);
     ourClient.registerInterceptor(new LoggingInterceptor(true));
   }

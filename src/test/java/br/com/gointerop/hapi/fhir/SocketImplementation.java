@@ -1,5 +1,5 @@
 
-package br.com.gointerop.hapi.fhir.starter;
+package br.com.gointerop.hapi.fhir;
 
 import ca.uhn.fhir.rest.api.EncodingEnum;
 import org.eclipse.jetty.websocket.api.Session;

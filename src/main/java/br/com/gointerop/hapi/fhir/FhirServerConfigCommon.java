@@ -1,4 +1,4 @@
-package br.com.gointerop.hapi.fhir.starter;
+package br.com.gointerop.hapi.fhir;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Driver;

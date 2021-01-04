@@ -1,10 +1,19 @@
 package br.com.gointerop.hapi.fhir.mapper;
 
-public class MapperPractitioner extends Mapper {
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
+import org.hl7.fhir.r4.model.Practitioner;
+import org.hl7.fhir.r4.model.Resource;
+
+import br.com.gointerop.hapi.fhir.util.UtilBaseParam;
+import ca.uhn.fhir.rest.param.BaseParam;
+
+public class MapperPractitioner extends Mapper<Practitioner> {
 	private static MapperPractitioner instance;
 
-	private static final String TABLE_NAME = "tb_prof";
-	private static final String PRIMARY_KEY = "co_ator_papel";
+	public static final String TABLE_NAME = "tb_prof";
+	public static final String PRIMARY_KEY = "co_ator_papel";
 
 	public static final String _id = "co_ator_papel";
 	public static final String _language = null;
@@ -31,13 +40,23 @@ public class MapperPractitioner extends Mapper {
 	}
 
 	@Override
-	public String getTableName() {
-		return TABLE_NAME;
-	}
+	public HashMap<String, BaseParam> map(Practitioner resource) throws IllegalArgumentException, IllegalAccessException {
+		HashMap<String, BaseParam> retVal = new HashMap<String, BaseParam>();
+		
+		for (Field field : resource.getClass().getFields()) {
+			String resourceFieldName = field.getName();
+			BaseParam resourceFieldValue = UtilBaseParam.toBaseParam(field.get(null));
+			
+			for (Field mapperField : this.getClass().getFields()) {
+				String mapperFieldName = mapperField.getName();
+				String mapperFieldValue = mapperField.get(null).toString();
+				
+				if(resourceFieldName.equals(mapperFieldName)) {
+					retVal.put(mapperFieldValue, UtilBaseParam.toBaseParam(resourceFieldValue));
+				}
+			}
+		}
 
-	@Override
-	public String getPrimaryKey() {
-		return PRIMARY_KEY;
+		return retVal;
 	}
-
 }

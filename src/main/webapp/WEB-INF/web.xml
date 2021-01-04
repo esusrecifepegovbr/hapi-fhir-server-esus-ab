@@ -11,7 +11,7 @@
 	<context-param>
 		<param-name>contextClass</param-name>
 		<param-value>
-			br.com.gointerop.hapi.fhir.starter.ApplicationContext
+			br.com.gointerop.hapi.fhir.ApplicationContext
 		</param-value>
 	</context-param>
 	<context-param>
@@ -31,7 +31,7 @@
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
 			<param-value>
-				br.com.gointerop.hapi.fhir.starter.FhirTesterConfig
+				br.com.gointerop.hapi.fhir.FhirTesterConfig
 			</param-value>
 		</init-param>
 		<load-on-startup>2</load-on-startup>
@@ -43,7 +43,7 @@
 
 	<servlet>
 		<servlet-name>fhirServlet</servlet-name>
-		<servlet-class>br.com.gointerop.hapi.fhir.starter.JpaRestfulServer</servlet-class>
+		<servlet-class>br.com.gointerop.hapi.fhir.JpaRestfulServer</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet-mapping>

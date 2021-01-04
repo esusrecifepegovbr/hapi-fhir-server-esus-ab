@@ -6,7 +6,7 @@ import ca.uhn.fhir.empi.rules.config.EmpiSettings;
 
 import com.google.common.base.Charsets;
 
-import br.com.gointerop.hapi.fhir.starter.HapiProperties;
+import br.com.gointerop.hapi.fhir.HapiProperties;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;

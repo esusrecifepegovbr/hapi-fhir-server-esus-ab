@@ -36,7 +36,7 @@ public class ProviderPractitioner implements IResourceProvider {
 
 	@Read(version = true)
 	public Practitioner read(@IdParam IIdType theId, RequestDetails theRequestDetails) {
-		return iControllerPractitioner.readById(theId.getIdPartAsLong());
+		return iControllerPractitioner.readById(theId.getIdPart());
 	}
 
 	@Search
