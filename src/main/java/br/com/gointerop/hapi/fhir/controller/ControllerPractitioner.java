@@ -56,7 +56,7 @@ public final class ControllerPractitioner extends Controller<Practitioner> {
 	}
 
 	@Override
-	public TransactionOutcome transaction(Resource theResource, BundleEntryRequestComponent request) {
+	public TransactionOutcome transaction(Practitioner theResource, BundleEntryRequestComponent request) {
 		MethodOutcome theMethodOutcome = new MethodOutcome();
 		OperationOutcome theOperationOutcome = new OperationOutcome();
 		theOperationOutcome.addIssue().setDiagnostics("Successful Transaction for Practitioner");

@@ -3,6 +3,7 @@ package br.com.gointerop.hapi.fhir;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.hl7.fhir.r4.model.Address;
 import org.hl7.fhir.r4.model.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -20,13 +21,16 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import br.com.gointerop.hapi.fhir.controller.ControllerFactory;
 import br.com.gointerop.hapi.fhir.controller.ControllerPatient;
+import br.com.gointerop.hapi.fhir.controller.patient.ControllerAddress;
 import br.com.gointerop.hapi.fhir.provider.ProviderBundle;
 import br.com.gointerop.hapi.fhir.provider.ProviderPatient;
 import br.com.gointerop.hapi.fhir.repository.IRepository;
 import br.com.gointerop.hapi.fhir.repository.PersistenceProperties;
 import br.com.gointerop.hapi.fhir.repository.RepositoryPatient;
+import br.com.gointerop.hapi.fhir.repository.patient.RepositoryAddress;
 import br.com.gointerop.hapi.fhir.service.IService;
 import br.com.gointerop.hapi.fhir.service.ServicePatient;
+import br.com.gointerop.hapi.fhir.service.patient.ServiceAddress;
 import ca.uhn.fhir.context.ConfigurationException;
 import ca.uhn.fhir.jpa.config.BaseJavaConfigR4;
 import ca.uhn.fhir.jpa.search.DatabaseBackedPagingProvider;
@@ -116,13 +120,28 @@ public class FhirServerConfigR4 extends BaseJavaConfigR4 {
 	}
 	
 	@Bean
+	public ControllerAddress controllerAddress() {
+		return new ControllerAddress();
+	}
+	
+	@Bean
 	public IService<Patient> servicePatient() {
 		return new ServicePatient();
 	}
 	
 	@Bean
+	public IService<Address> serviceAddress() {
+		return new ServiceAddress();
+	}
+	
+	@Bean
 	public IRepository<Patient> repositoryPatient() {
 		return new RepositoryPatient(jdbcTemplateESUS());
+	}
+	
+	@Bean
+	public IRepository<Address> repositoryAddress() {
+		return new RepositoryAddress(jdbcTemplateESUS());
 	}
 	
 	@Bean ProviderBundle providerBundle() {

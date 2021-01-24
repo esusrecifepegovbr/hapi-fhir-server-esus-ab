@@ -56,7 +56,7 @@ public final class ControllerOrganization extends Controller<Organization> {
 	}
 
 	@Override
-	public TransactionOutcome transaction(Resource theResource, BundleEntryRequestComponent request) {
+	public TransactionOutcome transaction(Organization theResource, BundleEntryRequestComponent request) {
 		MethodOutcome theMethodOutcome = new MethodOutcome();
 		OperationOutcome theOperationOutcome = new OperationOutcome();
 		theOperationOutcome.addIssue().setDiagnostics("Successful Transaction for Organization");

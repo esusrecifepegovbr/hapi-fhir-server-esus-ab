@@ -31,7 +31,7 @@ public class MapperPatient extends Mapper<Patient> {
 	public static final String deathDate = "dt_obito";
 	public static final String phonetic = null;
 	public static final String telecom = "nu_telefone_residencial";
-	public static final String addressCity = "co_localidade";
+	public static final String addressCity = null;
 	public static final String email = "ds_email";
 	public static final String given = "no_cidadao";
 	public static final String identifier = "nu_cpf";

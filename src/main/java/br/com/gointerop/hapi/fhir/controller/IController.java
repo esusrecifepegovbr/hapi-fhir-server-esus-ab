@@ -15,5 +15,5 @@ public interface IController<T> {
 
 	List<T> search(HashMap<String, BaseParam> params);
 	
-	TransactionOutcome transaction(Resource resource, BundleEntryRequestComponent request) throws IllegalArgumentException, IllegalAccessException;
+	TransactionOutcome transaction(T resource, BundleEntryRequestComponent request) throws IllegalArgumentException, IllegalAccessException;
 }

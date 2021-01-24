@@ -1,6 +1,7 @@
 package br.com.gointerop.hapi.fhir.translator;
 
 import br.com.gointerop.hapi.fhir.translator.TranslatorResource.TranslatorCatalog;
+import br.com.gointerop.hapi.fhir.translator.patient.TranslatorAddress;
 
 public class TranslatorFactory {
 	public static ITranslator createInstance(TranslatorCatalog resourceType) {
@@ -9,6 +10,9 @@ public class TranslatorFactory {
 		switch (resourceType) {
 		case PATIENT:
 			iTranslator = new TranslatorPatient();
+			break;
+		case PATIENTADDRESS:
+			iTranslator = new TranslatorAddress();
 			break;
 		case PRACTITIONER:
 			iTranslator = new TranslatorPractitioner();

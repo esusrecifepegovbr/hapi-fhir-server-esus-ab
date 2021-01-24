@@ -3,6 +3,7 @@ package br.com.gointerop.hapi.fhir.controller;
 import java.util.HashMap;
 import java.util.List;
 
+import org.hl7.fhir.r4.model.Address;
 import org.hl7.fhir.r4.model.Bundle;
 import org.hl7.fhir.r4.model.Bundle.BundleEntryRequestComponent;
 import org.hl7.fhir.r4.model.IdType;
@@ -19,8 +20,10 @@ import com.mysql.cj.xdevapi.SessionFactory;
 
 import br.com.gointerop.hapi.fhir.adapter.IAdapter;
 import br.com.gointerop.hapi.fhir.adapter.patient.AdapterPatient;
+import br.com.gointerop.hapi.fhir.adapter.patient.address.AdapterAddress;
 import br.com.gointerop.hapi.fhir.mapper.IMapper;
 import br.com.gointerop.hapi.fhir.mapper.MapperPatient;
+import br.com.gointerop.hapi.fhir.mapper.patient.MapperAddress;
 import br.com.gointerop.hapi.fhir.repository.IQuery;
 import br.com.gointerop.hapi.fhir.repository.Query;
 import br.com.gointerop.hapi.fhir.service.IService;
@@ -45,6 +48,9 @@ public final class ControllerPatient extends br.com.gointerop.hapi.fhir.controll
 	
 	@Autowired
 	private IService<Patient> servicePatient;
+	
+	@Autowired
+	private IController<Address> controllerAddress;
 
 	@Override
 	public Patient readById(String id) {
@@ -65,7 +71,7 @@ public final class ControllerPatient extends br.com.gointerop.hapi.fhir.controll
 	}
 	
 	@Override
-	public TransactionOutcome transaction(Resource theResource, BundleEntryRequestComponent request) throws IllegalArgumentException, IllegalAccessException {
+	public TransactionOutcome transaction(Patient theResource, BundleEntryRequestComponent request) throws IllegalArgumentException, IllegalAccessException {
 		MethodOutcome theMethodOutcome = new MethodOutcome();
 		OperationOutcome theOperationOutcome = new OperationOutcome();				
 		HashMap<String, BaseParam> mappedColumns = iMapper.map(theResource);		
@@ -77,7 +83,15 @@ public final class ControllerPatient extends br.com.gointerop.hapi.fhir.controll
 		try {
 			switch(httpVerb) {
 			case POST:
-				servicePatient.create(iQuery.create(mappedColumns, "nextval('"+MapperPatient.SEQUENCE_NAME+"')"));
+				if(theResource.getAddress().size()>0) {
+					Address address = theResource.getAddress().get(0);
+					HashMap<String, BaseParam> addressMappedColumns = new HashMap<String, BaseParam>();
+					addressMappedColumns.put("addressCity", UtilBaseParam.toBaseParam(address.getCity()));
+					
+					List<Address> addresses = controllerAddress.search(addressMappedColumns);
+					mappedColumns.replace(MapperPatient.addressCity, UtilBaseParam.toBaseParam(addresses.get(0).getId()));
+					servicePatient.create(iQuery.create(mappedColumns, "nextval('"+MapperPatient.SEQUENCE_NAME+"')"));
+				}
 				break;
 			case PUT:
 				servicePatient.update(iQuery.update(mappedColumns, primaryValue));
